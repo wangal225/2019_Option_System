@@ -1,0 +1,35 @@
+Monitor barberShop{
+		int waiting=0;
+    int chairs=N;
+		condition customers,barbers,mutex;
+			
+		process barber() {  
+                            while(true) {
+        
+                            P(customers);        
+                            P(mutex);     
+        
+                       
+                            waiting--;        
+                            V(barbers);        
+                            V(mutex);
+        
+                            cut_hair();      
+       }
+
+}
+
+
+process customer() {    
+                    P(mutex);   
+                    if(waiting < CHAIRS) {  
+  	
+                    waiting++;        
+                    V(customers);   	
+                    V(mutex);    	 	
+                    P(barbers);     	 	
+                    get_haircut();   
+} else
+    	
+                    V(mutex);     
+}
