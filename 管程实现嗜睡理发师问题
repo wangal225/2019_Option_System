@@ -1,0 +1,39 @@
+monitor PC{
+  int sofa=0,mutex=1,Bb=1,N=5,CM=0;  //Bb为理发师，N为最大沙发数，CM为顾客，sofa为已坐沙发数
+  void customer( )
+  {
+     wait(mutex);
+     if(sofa<N)
+      { 
+        sofa++;
+        signal(CM);
+        signal(mutex);
+        wait(Bb);
+        离开；
+        sofa--;
+      }
+     else
+       signal(mutex);
+   }
+  void barber()
+  {
+    wait(CM);
+    wait(mutex);
+    理发；
+    signal(mutex);
+    signal(Bb);
+    睡觉；
+   }
+}
+void Pa()  //顾客操作
+{
+   PC.customer();
+}
+void Pb()  //理发师操作
+{
+   PC.barber();
+}
+void main()
+{
+   Pa()；Pb()；
+}
